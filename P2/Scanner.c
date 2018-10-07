@@ -13,7 +13,7 @@ void loop(){
     int n = WiFi.scanNetworks();
     Serial.println("Scan done");
     if(n == 0){
-        Serial.println("No networks found")
+        Serial.println("No networks found");
     }
     else{
         for(i=0; i<n; i++){
