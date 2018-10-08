@@ -15,16 +15,18 @@ void loop(){
         stringEntered = Serial.readString();
     }
     for(int j = 0; j < 20; j++){
+        found = false;
         int n = WiFi.scanNetworks();
         for(i=0; i<n; i++){
             if(WiFi.SSID(i) == "wifi_mobile"){
                 Serial.print(WiFi.RSSI(i));
+                found = true;
             }
-            else{
-                Serial.print("NaN");
-            }
-            Serial.print(",");
-            delay(1000);
         }
+        if(!found){
+            Serial.print("NaN");
+        }
+        Serial.print(",");
+        delay(1000);
     }
 }
