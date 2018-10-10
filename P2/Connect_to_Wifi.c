@@ -14,7 +14,7 @@ void connectToWifi(void){
 }
 
 void wifiNetworkSelection(void){
-    if(WiFi.sttus() != WL_CONNECTED){
+    if(WiFi.status() != WL_CONNECTED){
         Serial.print("SSID? >");
         while(!Serial.available());
         ssid = Serial.readString();
