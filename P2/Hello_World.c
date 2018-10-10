@@ -1,6 +1,5 @@
 //#include "ESP8266WiFi.h"
 
-
 String incomingData;
 boolean TransmisioCompleta = false;
 
