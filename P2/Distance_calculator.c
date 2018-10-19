@@ -1,5 +1,6 @@
 #include "ESP8266WiFi.h"
 
+// Codi de configuració
 void setup(){
     Serial.begin(9600);
     WiFi.mode(WIFI_STA);
@@ -8,12 +9,15 @@ void setup(){
     Serial.println("Setup done");
 }
 
+// En aquesta funció mesurem la potència del wifi en 20 ocasions diferents
 void loop(){
-    Serial.println("Press any key");
+    //Quan es pitja una tecla, comença a escanejar
+    Serial.println("]\nPress any key\n[");
     stringEntered = "";
     while(stringEntered == ""){
         stringEntered = Serial.readString();
     }
+    // Durant 20 cicles, busca tots els wifis i imprimeix la potència del WiFi del meu mòbil (anomenat "wifi_mobile")
     for(int j = 0; j < 20; j++){
         found = false;
         int n = WiFi.scanNetworks();
@@ -23,8 +27,9 @@ void loop(){
                 found = true;
             }
         }
+        // Si no el troba, retorna un not a number per a numpy per a la posterior anàlisi de les dades en el Jupyter Notebook.
         if(!found){
-            Serial.print("NaN");
+            Serial.print("np.nan");
         }
         Serial.print(",");
         delay(1000);

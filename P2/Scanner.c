@@ -1,5 +1,6 @@
 #include "ESP8266WiFi.h"
 
+// Codi de configuració
 void setup(){
     Serial.begin(9600);
     WiFi.mode(WIFI_STA);
@@ -8,6 +9,7 @@ void setup(){
     Serial.println("Setup done");
 }
 
+// Codi que ens permet mostrar totes les xarxes disponibles amb la seva potència i si tenen seguretat o no
 void loop(){
     Serial.println("Scan start");
     int n = WiFi.scanNetworks();
