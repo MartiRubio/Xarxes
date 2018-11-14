@@ -1,15 +1,20 @@
 #include <ESP8266WiFi.h>
 
+
+// Dades de connexió a la xarxa WiFi
 const char* ssid = "wifi_mobile";
 const char* password = "t9rfepxq";
 
 WiFiClient client;
 
+
+// Dades de connexió a la API
 const int channelID = 623430;
 String writeAPIKey = "3DJ9KMQGRMNTYST0";
 
 const char* server = "api.thingspeak.com";
 const int postingInterval = 20*1000;
+
 
 // Codi de configuració
 void setup(){
@@ -23,15 +28,20 @@ void setup(){
 }
 
 void loop(){
+    // Si estem connectats al servidor
     if(client.connect(server, 80)){
+
+        // Calculem el valor RSSI
         long rssi = WiFi.RSSI();
 
+        // L'afegim al body de la petició HTTP
         String body = "field1";
                body += String(rssi);
 
         Serial.print("RSSI: ");
         Serial.println(rssi);
 
+        // Fem la petició HTTP POST al servidor
         client.println("POST /update HTTP/1.1");
         client.println("Host: api.thingspeak.com");
         client.println("User-Agent: ESP8266 (nothrans)/1.0");
@@ -44,6 +54,7 @@ void loop(){
 
     }
 
+    // Ens desconnectem del servidor
     client.stop();
     delay(postingInterval);
 }
