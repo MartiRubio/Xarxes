@@ -1,6 +1,7 @@
 import random
 import time
 
+
 def main():
     print("Codi per a les codificacions de l'assignatura de Xarxes")
     bits = [random.randint(0,1) for i in range(10)]
