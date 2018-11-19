@@ -5,24 +5,25 @@
 const char* ssid = "wifi_mota";
 const char* password = "1234";
 
+// 0 mode servidor, 1 mode client
 const int mode = 0;
 
-unsigned char number_client;
-
-String JSON_rand_number;
-
-long randNumber;
 
 WiFiServer server(80);
+WiFiClient client;
 
 // Codi de configuració
 void setup(){
     Serial.begin(9600);
     if(mode == 0){
+
+        // Wifi en mode servidor
         WiFi.mode(WIFI_AP);
         WiFi.softAP(ssid, password);
     }
     else{
+
+        // Wifi en mode client
         WiFi.mode(WIFI_STA);
         WiFi.disconnect();
     }
@@ -33,8 +34,7 @@ void setup(){
     }
 }
 
-
-
+// Bucle infinit que envia dades o espera a rebre dades
 void loop(){
     if(mode == 0){
         WiFiClient client = server.available();
@@ -56,42 +56,14 @@ void loop(){
         }
     }
     else{
-        // Si estem connectats al servidor
-        if(client.connect(server, 80)){
-
-            Serial.println("Number Sent: %l", randNumber);
-
-            // L'afegim al body de la petició HTTP
-            String body = "field1";
-                   body += String(rssi);
-
-            Serial.print("RSSI: ");
-            Serial.println(rssi);
-
-            // Fem la petició HTTP POST al servidor
-            client.println("POST /update HTTP/1.1");
-            client.println("Host: api.thingspeak.com");
-            client.println("User-Agent: ESP8266 (nothrans)/1.0");
-            client.println("Connection: close");
-            client.println("X-THINGSAPIKEY: " + writeAPIKey);
-            client.println("Content-Type: application/x-www-form-urlencoded");
-            client.println("Content-Length: " + String(body.length()));
-            client.println("");
-            client.println(body);
-
-        }
-
-        // Ens desconnectem del servidor
-        client.stop();
-        delay(postingInterval);
-    }
+        // Esperem a rebre dades
 }
 
 
 // En aquesta funció ens connectem a la xarxa amb els paràmetres desitjats.
 void connectToWifi(void){
     if(WiFi.status() != WL_CONNECTED){
-        WiFi.begin(c_ssid,c_pwd);
+        WiFi.begin(ssid.c_str(),password.c_str());
         while(WiFi.status() != WL_CONNECTED){
             delay(1000);
             Serial.println("Connecting...");
